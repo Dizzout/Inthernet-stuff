@@ -1,0 +1,38 @@
+
+.site-title,
+.site-header,
+.site-footer {
+    display: none !important;
+}
+
+
+* {
+    background: none !important;
+}
+
+a {
+    position: relative; 
+}
+
+@media print {
+    a[href^="http"]::after {
+        content: attr(href); 
+        font-family: "Times New Roman", Times, serif; 
+
+        font-family: "Times New Roman", Times, serif !important;
+   
+        padding: 50px !important;
+        display: inline-block; 
+        margin-left: 5px; 
+    }
+
+    a[href^="http"] {
+        color: transparent !important; 
+    }
+}
+
+
+
+@page {
+    margin: 50px !important;
+}
