@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        .expense-date {
+            display: flex;
+            flex-direction: column;
+            width: 5.5rem;
+            height: 5.5rem;
+            border: 1px solid #ececec;
+            background-color: #2a2a2a;
+            color: white;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .expense-date__month {
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .expense-date__year {
+            font-size: 0.75rem;
+        }
+
+        .expense-date__day {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            margin: 1rem 0;
+            background-color: #4b4b4b;
+        }
+
+        .expense-item__description {
+            display: flex;
+            flex-direction: column;
+            grid-gap: 1rem;
+            gap: 1rem;
+            align-items: flex-end;
+            flex-flow: column-reverse;
+            justify-content: flex-start;
+            flex: 1 1;
+        }
+
+        .expense-item h2 {
+            color: #3a3a3a;
+            font-size: 1rem;
+            flex: 1 1;
+            margin: 0 1rem;
+            color: white;
+        }
+
+        .expense-item__price {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background-color: #40005d;
+            border: 1px solid white;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        @media (min-width: 580px) {
+            .expense-item__description {
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                flex: 1 1;
+            }
+
+            .expense-item__description h2 {
+                font-size: 1.25rem;
+            }
+
+            .expense-item__price {
+                font-size: 1.25rem;
+                padding: 0.5rem 1.5rem;
+            }
+        }
+
+        .expenses {
+            padding: 1rem;
+            background-color: rgba(117, 118, 118, 0.46);
+            margin: 2rem auto;
+            width: 50rem;
+            max-width: 95%;
+        }
+    </style>
+</head>
+<body>
+<h2>My Expenses tempalte</h2>
+<div class="card expenses">
+    <div class="card expense-item">
+        <div class="expense-date">
+            <div class="expense-date__month">August</div>
+            <div class="expense-date__year">2020</div>
+            <div class="expense-date__day">14</div>
+        </div>
+        <div class="expense-item__description"><h2>Toilet Paper</h2>
+            <div class="expense-item__price">$94.12</div>
+        </div>
+    </div>
+    <div class="card expense-item">
+        <div class="expense-date">
+            <div class="expense-date__month">March</div>
+            <div class="expense-date__year">2021</div>
+            <div class="expense-date__day">12</div>
+        </div>
+        <div class="expense-item__description"><h2>New TV</h2>
+            <div class="expense-item__price">$799.49</div>
+        </div>
+    </div>
+    <div class="card expense-item">
+        <div class="expense-date">
+            <div class="expense-date__month">March</div>
+            <div class="expense-date__year">2021</div>
+            <div class="expense-date__day">28</div>
+        </div>
+        <div class="expense-item__description"><h2>Car Insurance</h2>
+            <div class="expense-item__price">$294.67</div>
+        </div>
+    </div>
+    <div class="card expense-item">
+        <div class="expense-date">
+            <div class="expense-date__month">June</div>
+            <div class="expense-date__year">2021</div>
+            <div class="expense-date__day">12</div>
+        </div>
+        <div class="expense-item__description"><h2>New Desk (Wooden)</h2>
+            <div class="expense-item__price">$450</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
