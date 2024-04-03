@@ -1,0 +1,207 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Template</title><style>@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap);*{box-sizing:border-box}html{font-family:'Noto Sans JP',sans-serif}body{margin:0;background-color:#fff}.expense-date{display:flex;flex-direction:column;width:5.5rem;height:5.5rem;border:1px solid #ececec;background-color:#2a2a2a;color:#fff;border-radius:12px;align-items:center;justify-content:center}.expense-date__month{font-size:.75rem;font-weight:700}.expense-date__year{font-size:.75rem}.expense-date__day{font-size:1.5rem;font-weight:700}.card{border-radius:12px;box-shadow:0 1px 8px rgba(0,0,0,.25)}.expense-item{display:flex;justify-content:space-between;align-items:center;padding:.5rem;margin:1rem 0;background-color:#4b4b4b}.expense-item__description{display:flex;flex-direction:column;grid-gap:1rem;gap:1rem;align-items:flex-end;flex-flow:column-reverse;justify-content:flex-start;flex:1 1}.expense-item h2{color:#3a3a3a;font-size:1rem;flex:1 1;margin:0 1rem;color:#fff}.expense-item__price{font-size:1rem;font-weight:700;color:#fff;background-color:#40005d;border:1px solid #fff;padding:.5rem;border-radius:12px}@media (min-width:580px){.expense-item__description{flex-direction:row;align-items:center;justify-content:flex-start;flex:1 1}.expense-item__description h2{font-size:1.25rem}.expense-item__price{font-size:1.25rem;padding:.5rem 1.5rem}}.expenses{padding:1rem;background-color:rgba(117,118,118,.46);margin:2rem auto;width:50rem;max-width:95%}.siren-container{background-color:#e6e6fa;padding:0,2 rem;border-radius:12px;margin-bottom:1rem;position:relative;padding-bottom:3rem}.add-expense-button-container{display:flex;justify-content:center;align-items:center;padding:1rem;border-radius:12px;margin-bottom:1rem}.add-expense-button{padding:.5rem 2rem;font-size:.85rem;background-color:#40005d;border:none;border-radius:12px;color:#fff;cursor:pointer;margin-right:.5rem;margin-left:.5rem}.input-container{display:flex;align-items:center;margin-bottom:.5rem;margin-right:.5rem;margin-left:.5rem}.input-container label{display:block;margin-bottom:.5rem;font-weight:700;margin-right:.5rem}.add-expense-button,.input-container input{width:50%;padding:.25rem;font-size:.75rem;border-radius:8px;border:1px solid #ccc}.button-container{display:flex;position:absolute;right:1rem;bottom:1rem;justify-content:space-between;margin-top:1rem}.hidden{display:none}.filter-container{display:flex;justify-content:space-between;align-items:center;padding:1rem;background-color:#d3d3d3;border-radius:12px;margin-bottom:1rem}.histogram-container{display:flex;justify-content:space-around;align-items:flex-end;flex-wrap:nowrap;width:100%;overflow-x:hidden}.bar{width:20px;margin-right:15px;background-color:#007bff;text-align:center;color:#fff;font-size:14px;border-radius:5px 5px 0 0}.bar>div{writing-mode:vertical-lr;transform:rotate(-45deg);margin-top:15px;font-size:.7rem}</style><link href="/static/css/main.a45aa6c1.chunk.css" rel="stylesheet"></head><body><div class="expenses"><div class="siren-container"><div class="add-expense-button-container"><button id="addNewExpenseButton" class="add-expense-button">Add New Expence</button></div><div class="input-container hidden"><label for="description">Title:ㅤㅤ</label> <input id="description"/></div><div class="input-container hidden"><label for="amount">Amount:</label> <input type="number" id="amount"/></div><div class="input-container hidden"><label for="date">Date:ㅤㅤ</label> <input type="date" id="date"/></div><div class="button-container"><button id="cancelButton" class="add-expense-button hidden">Cancel</button> <button id="addExpenseButton" class="add-expense-button hidden">Add Expence</button></div></div><div id="root" class="expenses"></div><script src="https://unpkg.com/react@17/umd/react.development.js"></script><script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script><script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script><script type="text/babel">const { useState, useEffect } = React;
+
+        const Histogram = ({ data }) => {
+            return (
+                <div className="histogram-container">
+                    {data.map((item, index) => (
+                      <div className="bar" key={index} style={{ height: `${item.amount / 2}px` }}>
+    <div>{item.month}</div>
+</div>
+                    ))}
+                </div>
+            );
+        };
+
+        const ExpenseItem = (props) => {
+            const date = new Date(props.date);
+            const month = date.toLocaleString('en-US', { month: 'long' });
+            const year = date.getFullYear();
+            const day = date.getDate();
+
+            return (
+                <div className="card expense-item">
+                    <div className="expense-date">
+                        <div className="expense-date__month">{month}</div>
+                        <div className="expense-date__year">{year}</div>
+                        <div className="expense-date__day">{day}</div>
+                    </div>
+                    <div className="expense-item__description">
+                        <h2>{props.title}</h2>
+                        <div className="expense-item__price">${props.amount}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        const monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        const expenses = [
+            {
+                id: 'e1',
+                title: 'Toilet Paper',
+                amount: 94.12,
+                date: new Date(2020, 7, 14),
+            },
+            {
+                id: 'e2',
+                title: 'New TV',
+                amount: 799.49,
+                date: new Date(2021, 2, 12),
+            },
+            {
+                id: 'e3',
+                title: 'Car Insurance',
+                amount: 294.67,
+                date: new Date(2021, 2, 28),
+            },
+            {
+                id: 'e4',
+                title: 'New Desk (Wooden)',
+                amount: 450,
+                date: new Date(2021, 5, 12),
+            },
+        ];
+
+        const App = () => {
+            const [year, setYear] = useState('2021'); // Состояние для выбранного года
+            const [monthlyExpenses, setMonthlyExpenses] = useState([]); // Состояние для ежемесячных расходов
+
+            // Функция для фильтрации расходов по выбранному году
+            const filterExpensesByYear = (year) => {
+                return expenses.filter(expense => expense.date.getFullYear() === parseInt(year));
+            };
+
+            // Функция для вычисления суммы расходов по месяцам
+            const calculateMonthlyExpenses = (yearlyExpenses) => {
+                const monthlyTotal = Array(12).fill(0); // Создаем массив для хранения сумм расходов по месяцам
+
+                yearlyExpenses.forEach(expense => {
+                    const month = expense.date.getMonth(); // Получаем номер месяца для текущего расхода
+                    monthlyTotal[month] += expense.amount; // Увеличиваем сумму расходов для соответствующего месяца
+                });
+
+                // Формируем массив объектов с данными о месяцах и суммах расходов
+                const monthlyData = monthlyTotal.map((amount, index) => ({
+                    month: monthNames[index],
+                    amount: amount
+                }));
+
+                return monthlyData;
+            };
+
+            // Обработчик изменения выбранного года
+            const handleYearChange = (event) => {
+                const selectedYear = event.target.value;
+                setYear(selectedYear);
+                const yearlyExpenses = filterExpensesByYear(selectedYear);
+                const monthlyData = calculateMonthlyExpenses(yearlyExpenses);
+                setMonthlyExpenses(monthlyData);
+            };
+
+            useEffect(() => {
+                const yearlyExpenses = filterExpensesByYear(year);
+                const monthlyData = calculateMonthlyExpenses(yearlyExpenses);
+                setMonthlyExpenses(monthlyData);
+            }, []); // Вызываем этот эффект только при монтировании компонента
+
+            return (
+                <div className="expenses">
+                    {expenses.map((expense, index) => (
+                        <ExpenseItem
+                            key={index}
+                            date={expense.date}
+                            title={expense.title}
+                            amount={expense.amount}
+                        />
+                    ))}
+                    <div className="filter-container">
+                        <label htmlFor="yearFilter">Select year:</label>
+                        <select id="yearFilter" onChange={handleYearChange} value={year}>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+ <option value="2022">2022</option>
+ <option value="2023">2023</option> 
+<option value="2024">2024</option>
+                            {/* Добавьте нужные года сюда */}
+                        </select>
+                    </div>
+                    <Histogram data={monthlyExpenses} />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
+        document.getElementById('addNewExpenseButton').addEventListener('click', () => {
+            const inputContainers = document.querySelectorAll('.input-container');
+            const addExpenseButton = document.getElementById('addExpenseButton');
+            const cancelButton = document.getElementById('cancelButton');
+
+            inputContainers.forEach((container) => {
+                container.classList.remove('hidden');
+            });
+            addExpenseButton.classList.remove('hidden');
+            cancelButton.classList.remove('hidden');
+            document.getElementById('addNewExpenseButton').classList.add('hidden'); // Скрываем новую кнопку после ее нажатия
+        });
+
+        document.getElementById('cancelButton').addEventListener('click', () => {
+            const descriptionInput = document.getElementById('description');
+            const amountInput = document.getElementById('amount');
+            const dateInput = document.getElementById('date');
+
+            descriptionInput.value = '';
+            amountInput.value = '';
+            dateInput.value = '';
+
+            const inputContainers = document.querySelectorAll('.input-container');
+            const addExpenseButton = document.getElementById('addExpenseButton');
+            const cancelButton = document.getElementById('cancelButton');
+
+            inputContainers.forEach((container) => {
+                container.classList.add('hidden');
+            });
+            addExpenseButton.classList.add('hidden');
+            cancelButton.classList.add('hidden');
+            document.getElementById('addNewExpenseButton').classList.remove('hidden'); // Показываем новую кнопку
+        });
+
+        document.getElementById('addExpenseButton').addEventListener('click', () => {
+            const descriptionInput = document.getElementById('description');
+            const amountInput = document.getElementById('amount');
+            const dateInput = document.getElementById('date');
+
+            const description = descriptionInput.value;
+            const amount = parseFloat(amountInput.value);
+            const date = dateInput.value;
+
+            if (!description.trim() || isNaN(amount) || !date) {
+                alert('Будь ласка, заповніть всі поля коректно.');
+                return;
+            }
+
+            const [year, month, day] = date.split('-').map(Number);
+
+            const newExpense = {
+                date: new Date(year, month - 1, day),
+                title: description,
+                amount: amount
+            };
+
+            expenses.push(newExpense);
+            
+            ReactDOM.render(<App />, document.getElementById('root'));
+
+            // После добавления новой витраты скрываем поля ввода и кнопку "Добавить витрату"
+            document.querySelectorAll('.input-container').forEach((container) => {
+                container.classList.add('hidden');
+            });
+            document.getElementById('addExpenseButton').classList.add('hidden');
+            document.getElementById('cancelButton').classList.add('hidden');
+            document.getElementById('addNewExpenseButton').classList.remove('hidden'); // Показываем новую кнопку
+        });</script><script>!function(e){function r(r){for(var n,a,i=r[0],c=r[1],l=r[2],p=0,s=[];p<i.length;p++)a=i[p],Object.prototype.hasOwnProperty.call(o,a)&&o[a]&&s.push(o[a][0]),o[a]=0;for(n in c)Object.prototype.hasOwnProperty.call(c,n)&&(e[n]=c[n]);for(f&&f(r);s.length;)s.shift()();return u.push.apply(u,l||[]),t()}function t(){for(var e,r=0;r<u.length;r++){for(var t=u[r],n=!0,i=1;i<t.length;i++){var c=t[i];0!==o[c]&&(n=!1)}n&&(u.splice(r--,1),e=a(a.s=t[0]))}return e}var n={},o={1:0},u=[];function a(r){if(n[r])return n[r].exports;var t=n[r]={i:r,l:!1,exports:{}};return e[r].call(t.exports,t,t.exports,a),t.l=!0,t.exports}a.e=function(e){var r=[],t=o[e];if(0!==t)if(t)r.push(t[2]);else{var n=new Promise((function(r,n){t=o[e]=[r,n]}));r.push(t[2]=n);var u,i=document.createElement("script");i.charset="utf-8",i.timeout=120,a.nc&&i.setAttribute("nonce",a.nc),i.src=function(e){return a.p+"static/js/"+({}[e]||e)+"."+{3:"f00e9902"}[e]+".chunk.js"}(e);var c=new Error;u=function(r){i.onerror=i.onload=null,clearTimeout(l);var t=o[e];if(0!==t){if(t){var n=r&&("load"===r.type?"missing":r.type),u=r&&r.target&&r.target.src;c.message="Loading chunk "+e+" failed.\n("+n+": "+u+")",c.name="ChunkLoadError",c.type=n,c.request=u,t[1](c)}o[e]=void 0}};var l=setTimeout((function(){u({type:"timeout",target:i})}),12e4);i.onerror=i.onload=u,document.head.appendChild(i)}return Promise.all(r)},a.m=e,a.c=n,a.d=function(e,r,t){a.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},a.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},a.t=function(e,r){if(1&r&&(e=a(e)),8&r)return e;if(4&r&&"object"==typeof e&&e&&e.__esModule)return e;var t=Object.create(null);if(a.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:e}),2&r&&"string"!=typeof e)for(var n in e)a.d(t,n,function(r){return e[r]}.bind(null,n));return t},a.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return a.d(r,"a",r),r},a.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},a.p="/",a.oe=function(e){throw console.error(e),e};var i=this["webpackJsonpmy-app"]=this["webpackJsonpmy-app"]||[],c=i.push.bind(i);i.push=r,i=i.slice();for(var l=0;l<i.length;l++)r(i[l]);var f=c;t()}([])</script><script src="/static/js/2.e45eac4e.chunk.js"></script><script src="/static/js/main.50eb6a99.chunk.js"></script></div></body></html>
